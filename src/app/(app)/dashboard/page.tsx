@@ -7,6 +7,7 @@ import { syncRepos } from "@/src/lib/sync";
 import OwnerProfile from "./components/OwnerProfile";
 import RepoList from "./components/RepoList";
 import ConnectGithub from "./components/ConnectGithub";
+import DeleteAccount from "./components/DeleteAccount";
 
 export const runtime = "nodejs";
 
@@ -18,7 +19,7 @@ export default async function DashboardPage() {
     where: { id: userId },
     include: {
       repos: {
-        orderBy: [{ stars: "desc" }, { forks: "desc" }, { name: "asc" }],
+        orderBy: [{ stars: "desc" }, { name: "asc" }],
       },
     },
   });
@@ -57,7 +58,7 @@ export default async function DashboardPage() {
       where: { id: userId },
       include: {
         repos: {
-          orderBy: [{ stars: "desc" }, { forks: "desc" }, { name: "asc" }],
+          orderBy: [{ stars: "desc" }, { name: "asc" }],
         },
       },
     });
@@ -73,7 +74,7 @@ export default async function DashboardPage() {
     where: { id: userId },
     include: {
       repos: {
-        orderBy: [{ stars: "desc" }, { forks: "desc" }, { name: "asc" }],
+        orderBy: [{ stars: "desc" }, { name: "asc" }],
       },
     },
   });
@@ -115,6 +116,17 @@ export default async function DashboardPage() {
         {/* Repositories */}
         <div className="mt-6">
           <RepoList repos={data.repos} />
+        </div>
+
+        {/* Danger Zone */}
+        <div className="mt-10 rounded-2xl border border-destructive/20 bg-destructive/5 p-6">
+          <h3 className="text-sm font-semibold text-destructive">Danger Zone</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Permanently delete your account, profile, and all synced repositories.
+          </p>
+          <div className="mt-4">
+            <DeleteAccount />
+          </div>
         </div>
       </div>
     </div>

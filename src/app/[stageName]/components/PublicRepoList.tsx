@@ -28,17 +28,9 @@ export default function PublicRepoList({ repos }: { repos: Repo[] }) {
             </div>
             <div className="flex items-center gap-3 text-xs text-muted-foreground">
               <span>★ {repo.stars}</span>
-              <span>⑂ {repo.forks}</span>
               {repo.language ? <span>{repo.language}</span> : null}
-              {repo.isFork ? <span>fork</span> : null}
-              {repo.isArchived ? <span>archived</span> : null}
             </div>
           </div>
-          {repo.description ? (
-            <p className="mt-3 line-clamp-2 text-sm text-muted-foreground">
-              {repo.description}
-            </p>
-          ) : null}
         </a>
       ))}
     </div>

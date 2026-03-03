@@ -41,7 +41,7 @@ export default async function StageNamePage({
     where: { stageName },
     include: {
       repos: {
-        orderBy: [{ stars: "desc" }, { forks: "desc" }, { name: "asc" }],
+        orderBy: [{ stars: "desc" }, { name: "asc" }],
       },
     },
   });
