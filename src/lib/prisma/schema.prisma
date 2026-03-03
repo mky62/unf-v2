@@ -50,14 +50,9 @@ model Repo {
   githubRepoId  Int      @unique
   name          String
   fullName      String   // owner/name
-  description   String?
   stars         Int      @default(0)
-  forks         Int      @default(0)
   language      String?
-  isFork        Boolean  @default(false)
   htmlUrl       String
-  homepageUrl   String?
-  isArchived    Boolean  @default(false)
 
   cachedAt      DateTime @default(now())
   createdAt     DateTime @default(now())

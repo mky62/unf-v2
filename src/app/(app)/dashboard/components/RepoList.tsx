@@ -6,14 +6,9 @@ type RepoData = {
     id: string;
     name: string;
     fullName: string;
-    description: string | null;
     language: string | null;
     stars: number;
-    forks: number;
-    isFork: boolean;
-    isArchived: boolean;
     htmlUrl: string;
-    homepageUrl: string | null;
 };
 
 const languageColors: Record<string, string> = {
@@ -64,8 +59,7 @@ export default function RepoList({ repos }: { repos: RepoData[] }) {
             const q = search.toLowerCase();
             result = result.filter(
                 (r) =>
-                    r.name.toLowerCase().includes(q) ||
-                    (r.description && r.description.toLowerCase().includes(q))
+                    r.name.toLowerCase().includes(q)
             );
         }
         return result;
@@ -167,16 +161,6 @@ export default function RepoList({ repos }: { repos: RepoData[] }) {
                                         <span className="truncate font-semibold group-hover:text-primary transition-colors">
                                             {repo.name}
                                         </span>
-                                        {repo.isFork && (
-                                            <span className="shrink-0 rounded-full border px-2 py-0.5 text-[10px] text-muted-foreground">
-                                                fork
-                                            </span>
-                                        )}
-                                        {repo.isArchived && (
-                                            <span className="shrink-0 rounded-full border px-2 py-0.5 text-[10px] text-muted-foreground">
-                                                archived
-                                            </span>
-                                        )}
                                     </div>
                                 </div>
                                 <svg
@@ -191,13 +175,6 @@ export default function RepoList({ repos }: { repos: RepoData[] }) {
                                     <line x1="10" y1="14" x2="21" y2="3" />
                                 </svg>
                             </div>
-
-                            {/* Description */}
-                            {repo.description && (
-                                <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
-                                    {repo.description}
-                                </p>
-                            )}
 
                             {/* Footer stats */}
                             <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
@@ -223,39 +200,6 @@ export default function RepoList({ repos }: { repos: RepoData[] }) {
                                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                                         </svg>
                                         {repo.stars}
-                                    </span>
-                                )}
-                                {repo.forks > 0 && (
-                                    <span className="flex items-center gap-1">
-                                        <svg
-                                            className="size-3.5"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth={2}
-                                        >
-                                            <circle cx="12" cy="18" r="3" />
-                                            <circle cx="6" cy="6" r="3" />
-                                            <circle cx="18" cy="6" r="3" />
-                                            <path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9" />
-                                            <path d="M12 12v3" />
-                                        </svg>
-                                        {repo.forks}
-                                    </span>
-                                )}
-                                {repo.homepageUrl && (
-                                    <span className="flex items-center gap-1">
-                                        <svg
-                                            className="size-3.5"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth={2}
-                                        >
-                                            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                                            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                                        </svg>
-                                        Live
                                     </span>
                                 )}
                             </div>

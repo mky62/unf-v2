@@ -4,12 +4,6 @@ import type { Repo as GithubRepo } from "@/src/lib/types";
 
 const SYNC_TTL_MS = 10 * 60 * 1000; // 10 minutes
 
-type GithubRepoExtended = GithubRepo & {
-  fork?: boolean;
-  archived?: boolean;
-  homepage?: string | null;
-};
-
 export async function syncRepos(
   userId: string,
   opts?: {
@@ -33,7 +27,7 @@ export async function syncRepos(
   });
 
   try {
-    const repos = (await fetchPublicRepos(user.username)) as GithubRepoExtended[];
+    const repos = await fetchPublicRepos(user.username);
 
     await prisma.$transaction(async (tx) => {
       await Promise.all(
@@ -49,14 +43,9 @@ export async function syncRepos(
               userId,
               name,
               fullName: repo.full_name,
-              description: repo.description,
               language: repo.language,
               stars: repo.stargazers_count ?? 0,
-              forks: repo.forks_count ?? 0,
               htmlUrl: repo.html_url,
-              homepageUrl: repo.homepage ?? null,
-              isFork: !!repo.fork,
-              isArchived: !!repo.archived,
               cachedAt: new Date(),
             },
             create: {
@@ -64,14 +53,9 @@ export async function syncRepos(
               userId,
               name,
               fullName: repo.full_name,
-              description: repo.description,
               language: repo.language,
               stars: repo.stargazers_count ?? 0,
-              forks: repo.forks_count ?? 0,
               htmlUrl: repo.html_url,
-              homepageUrl: repo.homepage ?? null,
-              isFork: !!repo.fork,
-              isArchived: !!repo.archived,
             },
           });
         })

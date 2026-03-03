@@ -18,9 +18,7 @@ export type Repo = {
   name?: string
   html_url?: string
   stargazers_count: number
-  forks_count?: number
   open_issues_count?: number
   language: string | null
-  description?: string | null
   pushed_at?: string
 }
