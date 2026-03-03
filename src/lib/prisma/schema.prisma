@@ -1,0 +1,70 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "postgresql"
+}
+
+enum SyncStatus {
+  IDLE
+  SYNCING
+  SUCCESS
+  FAILED
+}
+
+model User {
+
+  /// Clerk user ID (primary identity)
+  id            String   @id
+
+  /// Public app username
+  stageName     String   @unique
+
+ /// GitHub username
+  username      String   @unique
+
+  avatarUrl     String?
+  description   String?
+  socialLinks   Json?
+  isPublic      Boolean  @default(true)
+  lastSyncedAt  DateTime?
+  syncStatus    SyncStatus @default(IDLE)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  repos         Repo[]
+
+  @@index([username])
+  @@index([stageName])
+}
+
+model Repo {
+  id            String   @id @default(cuid())
+  
+  /// References Clerk user ID
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  /// Repo metadata
+  githubRepoId  Int      @unique
+  name          String
+  fullName      String   // owner/name
+  description   String?
+  stars         Int      @default(0)
+  forks         Int      @default(0)
+  language      String?
+  isFork        Boolean  @default(false)
+  htmlUrl       String
+  homepageUrl   String?
+  isArchived    Boolean  @default(false)
+
+  cachedAt      DateTime @default(now())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+
+ @@index([userId])
+  @@index([language])
+  @@unique([userId, name])  // prevents duplicate repo names per user
+}

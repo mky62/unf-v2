@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+src/
+│
+├── app/
+│   │
+│   ├── page.tsx
+│   │   → Public home page (landing)
+│   │
+│   ├── layout.tsx
+│   │   → Root layout
+│   │
+│   ├── sign-in/[[...sign-in]]/
+│   │   └── page.tsx
+│   │
+│   ├── sign-up/[[...sign-up]]/
+│   │   └── page.tsx
+│   │
+│   ├── dashboard/
+│   │   ├── page.tsx
+│   │   │   → PRIVATE owner dashboard
+│   │   │
+│   │   ├── loading.tsx
+│   │   │
+│   │   └── components/
+│   │       ├── OwnerProfile.tsx
+│   │       ├── RepoList.tsx
+│   │       └── ConnectGithub.tsx
+│   │
+│   ├── u/
+│   │   └── [username]/
+│   │       ├── page.tsx
+│   │       │   → PUBLIC profile page
+│   │       │
+│   │       ├── loading.tsx
+│   │       └── components/
+│   │           ├── PublicProfile.tsx
+│   │           └── PublicRepoList.tsx
+│   │
+│   └── api/
+│       │
+│       ├── github/
+│       │   ├── connect/
+│       │   │   └── route.ts
+│       │   │       → start GitHub OAuth linking
+│       │   │
+│       │   ├── refresh/
+│       │   │   └── route.ts
+│       │   │       → refresh repo snapshot
+│       │   │
+│       │   └── webhook/
+│       │       └── route.ts
+│       │       → (future) GitHub webhooks
+│       │
+│       └── profile/
+│           └── update/
+│               └── route.ts
+│               → owner-only mutations
+│
+├── components/
+│   ├── navbar/
+│   │   └── Navbar.tsx
+│   │
+│   ├── ui/
+│   │   ├── Button.tsx
+│   │   ├── Card.tsx
+│   │   └── Loader.tsx
+│   │
+│   └── shared/
+│       ├── RepoCard.tsx
+│       └── StatsGrid.tsx
+│
+├── lib/
+│   │
+│   ├── auth/
+│   │   └── requireUser.ts
+│   │       → reusable auth guard
+│   │
+│   ├── clerk/
+│   │   └── github-token.ts
+│   │       → fetch OAuth token from Clerk
+│   │
+│   ├── github/
+│   │   ├── github-api.ts
+│   │   │   → server GitHub fetch logic
+│   │   ├── github-transform.ts
+│   │   │   → compute stats
+│   │   └── github-types.ts
+│   │
+│   ├── db/
+│   │   ├── client.ts
+│   │   ├── queries.ts
+│   │   └── mutations.ts
+│   │
+│   └── profile/
+│       └── snapshot.ts
+│           → create/update public profile cache
+│
+├── types/
+│   ├── profile.ts
+│   ├── repo.ts
+│   └── api.ts
+│
+├── middleware.ts
+│   → Clerk middleware (route protection)
+│
+└── styles/
+    └── globals.css
