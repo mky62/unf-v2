@@ -1,6 +1,6 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import BgDash from '@/public/BgDash.jpg'
+import BgDash from '@/public/bgdash.jpg'
 import Image from 'next/image'
 
 
