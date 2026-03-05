@@ -1,10 +1,6 @@
 "use client";
 
-import NextImage from "next/image";
 import Navbar from "./components/Navbar";
-import SearchBar from "./components/Searchbar";
-
-
 
 const features = [
     {
@@ -46,16 +42,14 @@ const features = [
 ];
 
 
-
-
 export default function HomePage() {
 
     return (
-        <div className="min-h-screen w-full bg-sky-500">
+        <div className="min-h-screen w-full">
             <Navbar />
 
-            <div className="h-[calc(100vh)] max-w-7xl mx-auto bg-red-500">
-                <div></div>
+            <div className="h-full max-w-7xl mx-auto pt-25 ">
+                <div className='bg-blue-500 h-[calc(100vh-120px)] w-full rounded-tr-2xl rounded-tl-2xl'></div>
             </div>
         </div>
     )

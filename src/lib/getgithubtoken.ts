@@ -1,7 +1,8 @@
 // lib/github/getGithubToken.ts
 import { clerkClient } from "@clerk/nextjs/server";
 import { prisma } from "@/src/lib/prisma";
-import { encrypt, decrypt } from "@/lib/crypto";
+import { encrypt, decrypt } from "@/src/lib/crypto";
+import type { User } from "@/src/lib/types";
 
 export async function getGithubToken(userId: string): Promise<string> {
     // 1. Check DB first

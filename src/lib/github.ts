@@ -1,8 +1,8 @@
 import type { Repo } from "@/src/lib/types";
 
 function requireOk(res: Response, context: string) {
-  if (res.ok) return;
-  throw new Error(`${context} failed (${res.status})`);
+    if (res.ok) return;
+    throw new Error(`${context} failed (${res.status})`);
 }
 
 // export async function fetchPublicRepos(username: string): Promise<Repo[]> {
@@ -32,6 +32,7 @@ export async function fetchGitPublicRepo(username: string, token?: string): Prom
     const headers: any = {
         Accept: "application/vnd.github+json",
     };
+
 
     if (token) {
         headers.Authorization = `Bearer ${token}`;

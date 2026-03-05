@@ -1,6 +1,7 @@
 import { prisma } from "@/src/lib/prisma";
 import { fetchGitPublicRepo } from "@/src/lib/github";
 import type { Repo as GithubRepo } from "@/src/lib/types";
+import { getGithubToken } from "@/src/lib/getgithubtoken";
 
 const SYNC_TTL_MS = 10 * 60 * 1000; // 30 minutes
 
@@ -13,7 +14,7 @@ export async function syncRepos(
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) return;
 
-  
+
   const shouldSync =
     opts?.force ||
     user.syncStatus === "FAILED" ||
@@ -37,6 +38,7 @@ export async function syncRepos(
 
 
   try {
+    const token = await getGithubToken(userId); // 👈 get token (DB or Clerk
     const repos = await fetchGitPublicRepo(user.username);
 
     await prisma.$transaction(async (tx) => {

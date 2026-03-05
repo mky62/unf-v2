@@ -1,6 +1,6 @@
 "use client";
 
-import GitHubCalendar from "react-github-calendar";
+import { GitHubCalendar } from "react-github-calendar";
 
 export default function GithubHeatmap({ username }: { username: string }) {
     // Custom theme matching the premium dark & amber aesthetic

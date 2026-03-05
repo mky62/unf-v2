@@ -39,10 +39,10 @@ export default function SearchBar() {
     }, [query]);
 
     return (
-        <div className="relative mx-auto w-[100px] h-12">
+        <div className="relative mx-auto w-1/2">
             <div className={`relative rounded-2xl bg-card border shadow-2xl shadow-black/10 transition-all duration-200 ${open && query.trim().length >= 2 ? "rounded-b-none border-b-0" : ""}`}>
-                <div className="flex items-center gap-3 px-5 py-4">
-                    <svg className="size-5 shrink-0 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <div className="flex items-center gap-2 p-2">
+                    <svg className="size-4 shrink-0 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                         <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
                     </svg>
                     <input
@@ -51,8 +51,8 @@ export default function SearchBar() {
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => setOpen(true)}
                         onBlur={() => setTimeout(() => setOpen(false), 150)}
-                        placeholder="Search by username or stage name…"
-                        className="w-full bg-transparent text-base outline-none placeholder:text-muted-foreground/50 sm:text-lg"
+                        placeholder="Search..."
+                        className="w-full bg-transparent  outline-none"
                     />
                     {loading && (
                         <svg className="size-5 shrink-0 animate-spin text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>

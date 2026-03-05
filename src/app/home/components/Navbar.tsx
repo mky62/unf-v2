@@ -1,59 +1,96 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import NextImage from "next/image";
 import { useAuth } from "@clerk/nextjs";
-
-
+import SearchBar from "./Searchbar";
 
 export default function Navbar() {
     const { isSignedIn } = useAuth();
     const [dropOpen, setDropOpen] = useState(false);
     const dropRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        function handleClick(e: MouseEvent) {
-            if (dropRef.current && !dropRef.current.contains(e.target as Node)) {
-                setDropOpen(false);
-            }
-        }
-        document.addEventListener("mousedown", handleClick);
-        return () => document.removeEventListener("mousedown", handleClick);
-    }, []);
-
     return (
-        <div className="pointer-events-none fixed top-0 left-0 right-0 z-40 flex justify-center px-4 pt-4">
-            <header className="pointer-events-auto w-full max-w-2xl rounded-2xl border bg-background/80 backdrop-blur-md shadow-lg shadow-black/5">
-                <div className="flex h-14 items-center justify-between px-5">
+        <div className="pointer-events-none fixed top-0 left-0 right-0 z-40 flex justify-center px-4 pt-5">
+            <header className="pointer-events-auto w-full max-w-4xl rounded-2xl border border-white/[0.07] bg-[#e0f2fe] shadow-2xl shadow-black/40 backdrop-blur-xl">
+                <div className="flex h-[52px] items-center justify-between px-4">
+
                     {/* Logo */}
-                    <div className="flex items-center">
-                        <NextImage src="/croplogo.png" alt="unfinished" width={110} height={36} className="h-8 w-auto object-contain" />
-                    </div>
+                    <a href="/">
+                        <NextImage
+                            src="/croplogo.png"
+                            alt="unfinished"
+                            width={100}
+                            height={100}
+                            className="h-10 w-auto object-contain rounded-lg"
+                        />
+                    </a>
+
+                    <SearchBar />
 
                     {/* Right side */}
-                    <div className="flex items-center gap-2">
-                        {/* Dropdown: More */}
+                    <div className="flex items-center gap-1.5">
+
+                        {isSignedIn ? (
+                            <a
+                                href="/dashboard"
+                                className="inline-flex h-8 items-center gap-1.5 rounded-xl bg-gradient-to-br from-pink-300 to-rose-400 px-4 text-[13px] font-semibold text-rose-950 shadow-lg shadow-rose-500/20 transition-all hover:-translate-y-px hover:shadow-rose-500/40"
+                            >
+                                <svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                                    <rect x="3" y="3" width="7" height="7" rx="1" />
+                                    <rect x="14" y="3" width="7" height="7" rx="1" />
+                                    <rect x="3" y="14" width="7" height="7" rx="1" />
+                                    <rect x="14" y="14" width="7" height="7" rx="1" />
+                                </svg>
+                                Dashboard
+                            </a>
+                        ) : (
+                            <a
+                                href="/sign-up"
+                                className="inline-flex h-8 items-center rounded-xl px-3.5 text-[13px] font-medium text-gray/50 transition-colors hover:text-white/90"
+                            >
+                                Get Started
+                            </a>
+                        )}
+
+                        {/* Dropdown */}
                         <div ref={dropRef} className="relative">
                             <button
                                 type="button"
                                 onClick={() => setDropOpen((v) => !v)}
-                                className="inline-flex h-8 items-center gap-1 rounded-lg px-3 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                                className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-white/[0.07] bg-white/[0.08] text-white/70 transition-colors hover:bg-white/[0.08] hover:text-white/40"
                             >
-                                More
-                                <svg className={`size-3.5 transition-transform ${dropOpen ? "rotate-180" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                                <svg
+                                    className={`size-3.5 transition-transform duration-200 ${dropOpen ? "rotate-180" : ""}`}
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="black"
+                                    strokeWidth={2.5}
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                >
                                     <path d="m6 9 6 6 6-6" />
                                 </svg>
                             </button>
+
                             {dropOpen && (
-                                <div className="absolute right-0 top-full mt-2 w-40 overflow-hidden rounded-xl border bg-card shadow-lg">
-                                    <a href="/blog" className="flex items-center gap-2 px-4 py-2.5 text-sm transition-colors hover:bg-accent">
-                                        <svg className="size-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                                            <path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+                                <div className="absolute right-0 top-full mt-2.5 w-44 overflow-hidden rounded-2xl border border-white/[0.08] bg-neutral-950/95 p-1.5 shadow-2xl shadow-black/50 backdrop-blur-xl">
+                                    <a
+                                        href="/blog"
+                                        className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[13px] font-medium text-white/50 transition-colors hover:bg-white/[0.05] hover:text-white/90"
+                                    >
+                                        <svg className="size-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                                            <path d="M12 20h9" />
+                                            <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
                                         </svg>
                                         Blog
                                     </a>
-                                    <a href="/policy" className="flex items-center gap-2 px-4 py-2.5 text-sm transition-colors hover:bg-accent">
-                                        <svg className="size-4 text-muted-foreground" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                                    <div className="my-1 h-px bg-white/[0.06]" />
+                                    <a
+                                        href="/policy"
+                                        className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[13px] font-medium text-white/50 transition-colors hover:bg-white/[0.05] hover:text-white/90"
+                                    >
+                                        <svg className="size-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                                         </svg>
                                         Policy
@@ -62,26 +99,6 @@ export default function Navbar() {
                             )}
                         </div>
 
-                        {isSignedIn ? (
-                            <a
-                                href="/dashboard"
-                                className="inline-flex h-8 items-center justify-center gap-1.5 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                            >
-                                <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                                    <rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" /><rect x="14" y="14" width="7" height="7" rx="1" />
-                                </svg>
-                                Dashboard
-                            </a>
-                        ) : (
-                            <>
-                                <a
-                                    href="/sign-up"
-                                    className="inline-flex h-8 items-center justify-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-                                >
-                                    Get Started
-                                </a>
-                            </>
-                        )}
                     </div>
                 </div>
             </header>

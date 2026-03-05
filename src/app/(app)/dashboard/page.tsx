@@ -99,6 +99,11 @@ export default async function DashboardPage() {
               isPublic: data.isPublic,
             }}
           />
+
+          {/* Github Heatmap */}
+          <div className="px-2">
+            <GithubHeatmap username={data.username} />
+          </div>
         </div>
 
         {/* Right content */}
@@ -113,10 +118,7 @@ export default async function DashboardPage() {
             />
           </div>
 
-          {/* Github Heatmap */}
-          <div className="px-2">
-            <GithubHeatmap username={data.username} />
-          </div>
+
 
           {/* Scrollable repo section */}
           <div className="flex-1 p-2 overflow-y-auto min-h-0 border-2 border-amber-600">

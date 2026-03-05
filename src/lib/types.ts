@@ -10,6 +10,7 @@ export type GithubUser = {
   blog?: string | null
   twitter_username?: string | null
   public_repos?: number
+  githubAccessToken?: string
 }
 
 export type Repo = {
