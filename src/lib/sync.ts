@@ -1,8 +1,8 @@
 import { prisma } from "@/src/lib/prisma";
-import { fetchPublicRepos } from "@/src/lib/github";
+import { fetchGitPublicRepo } from "@/src/lib/github";
 import type { Repo as GithubRepo } from "@/src/lib/types";
 
-const SYNC_TTL_MS = 10 * 60 * 1000; // 10 minutes
+const SYNC_TTL_MS = 10 * 60 * 1000; // 30 minutes
 
 export async function syncRepos(
   userId: string,
@@ -13,21 +13,31 @@ export async function syncRepos(
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) return;
 
-  if (user.syncStatus === "SYNCING") return;
-
-  const isStale =
+  
+  const shouldSync =
+    opts?.force ||
+    user.syncStatus === "FAILED" ||
     !user.lastSyncedAt ||
     Date.now() - user.lastSyncedAt.getTime() > SYNC_TTL_MS;
 
-  if (!opts?.force && !isStale) return;
+  if (!shouldSync) return;
 
-  await prisma.user.update({
-    where: { id: userId },
-    data: { syncStatus: "SYNCING" },
+  // atomic lock 
+  const lock = await prisma.user.updateMany({
+    where: {
+      id: userId,
+      syncStatus: { not: "SYNCING" }
+    },
+    data: {
+      syncStatus: "SYNCING"
+    }
   });
 
+  if (lock.count === 0) return;
+
+
   try {
-    const repos = await fetchPublicRepos(user.username);
+    const repos = await fetchGitPublicRepo(user.username);
 
     await prisma.$transaction(async (tx) => {
       await Promise.all(

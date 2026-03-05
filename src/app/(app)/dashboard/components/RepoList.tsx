@@ -66,13 +66,13 @@ export default function RepoList({ repos }: { repos: RepoData[] }) {
     }, [repos, filter, search]);
 
     return (
-        <div>
+        <div className="flex flex-col flex-1 min-h-0 h-full overflow-hidden">
             {/* Header */}
-            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between shrink-0">
                 <div>
                     <h2 className="text-lg font-semibold">
                         Repositories
-                        <span className="ml-2 text-sm font-normal text-muted-foreground">
+                        <span className="ml-2 text-sm font-bold  text-gray-500">
                             {filtered.length}
                             {filtered.length !== repos.length ? ` of ${repos.length}` : ""}
                         </span>
@@ -99,7 +99,7 @@ export default function RepoList({ repos }: { repos: RepoData[] }) {
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             placeholder="Search repos…"
-                            className="w-48 rounded-lg border bg-background py-2 pl-9 pr-3 text-sm outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
+                            className="w-48 rounded-sm border bg-background py-2 pl-9 pr-3 text-sm outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
                         />
                     </div>
 
@@ -108,7 +108,7 @@ export default function RepoList({ repos }: { repos: RepoData[] }) {
                         <select
                             value={filter}
                             onChange={(e) => setFilter(e.target.value)}
-                            className="rounded-lg border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
+                            className="rounded-sm border bg-background px-3 py-2 text-sm outline-none transition-colors focus:border-primary focus:ring-1 focus:ring-primary"
                         >
                             <option value="all">All Languages</option>
                             {languages.map((lang) => (
@@ -122,91 +122,93 @@ export default function RepoList({ repos }: { repos: RepoData[] }) {
             </div>
 
             {/* Grid */}
-            {filtered.length === 0 ? (
-                <div className="rounded-2xl border bg-card p-10 text-center">
-                    <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-xl bg-secondary">
-                        <svg
-                            className="size-6 text-muted-foreground"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                            <path d="M9 18c-4.51 2-5-2-7-2" />
-                        </svg>
+            <div className="flex-1 min-h-0 overflow-y-auto pr-2 pb-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-primary/20 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-primary/40">
+                {filtered.length === 0 ? (
+                    <div className="rounded-sm border bg-card p-10 text-center flex-1 min-h-0 overflow">
+                        <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-xl bg-secondary">
+                            <svg
+                                className="size-6 text-muted-foreground"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+                                <path d="M9 18c-4.51 2-5-2-7-2" />
+                            </svg>
+                        </div>
+                        <p className="text-sm text-green-500">
+                            {repos.length === 0
+                                ? "No repositories synced yet. Hit Sync to fetch your repos."
+                                : "No repositories match your filters."}
+                        </p>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                        {repos.length === 0
-                            ? "No repositories synced yet. Hit Sync to fetch your repos."
-                            : "No repositories match your filters."}
-                    </p>
-                </div>
-            ) : (
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                    {filtered.map((repo) => (
-                        <a
-                            key={repo.id}
-                            href={repo.htmlUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="group rounded-2xl border bg-card p-5 transition-all hover:border-primary/30 hover:bg-accent/50 hover:shadow-sm"
-                        >
-                            {/* Repo name + badges */}
-                            <div className="flex items-start justify-between gap-2">
-                                <div className="min-w-0">
-                                    <div className="flex items-center gap-2">
-                                        <span className="truncate font-semibold group-hover:text-primary transition-colors">
-                                            {repo.name}
-                                        </span>
+                ) : (
+                    <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                        {filtered.map((repo) => (
+                            <a
+                                key={repo.id}
+                                href={repo.htmlUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="group rounded-sm border bg-card p-5 transition-all hover:border-green/30 hover:bg-blue-100 hover:shadow-sm"
+                            >
+                                {/* Repo name + badges */}
+                                <div className="flex items-start justify-between gap-2">
+                                    <div className="min-w-0">
+                                        <div className="flex items-center gap-2">
+                                            <span className="truncate font-semibold group-hover:text-primary transition-colors">
+                                                {repo.name}
+                                            </span>
+                                        </div>
                                     </div>
+                                    <svg
+                                        className="size-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth={2}
+                                    >
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                        <polyline points="15 3 21 3 21 9" />
+                                        <line x1="10" y1="14" x2="21" y2="3" />
+                                    </svg>
                                 </div>
-                                <svg
-                                    className="size-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth={2}
-                                >
-                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                                    <polyline points="15 3 21 3 21 9" />
-                                    <line x1="10" y1="14" x2="21" y2="3" />
-                                </svg>
-                            </div>
 
-                            {/* Footer stats */}
-                            <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
-                                {repo.language && (
-                                    <span className="flex items-center gap-1.5">
-                                        <span
-                                            className="size-2.5 rounded-full"
-                                            style={{
-                                                backgroundColor:
-                                                    languageColors[repo.language] ?? "#8b8b8b",
-                                            }}
-                                        />
-                                        {repo.language}
-                                    </span>
-                                )}
-                                {repo.stars > 0 && (
-                                    <span className="flex items-center gap-1">
-                                        <svg
-                                            className="size-3.5"
-                                            viewBox="0 0 24 24"
-                                            fill="currentColor"
-                                        >
-                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                                        </svg>
-                                        {repo.stars}
-                                    </span>
-                                )}
-                            </div>
-                        </a>
-                    ))}
-                </div>
-            )}
+                                {/* Footer stats */}
+                                <div className="mt-3 flex items-center gap-4 text-xs text-muted-foreground">
+                                    {repo.language && (
+                                        <span className="flex items-center gap-1.5">
+                                            <span
+                                                className="size-2.5 rounded-full"
+                                                style={{
+                                                    backgroundColor:
+                                                        languageColors[repo.language] ?? "#8b8b8b",
+                                                }}
+                                            />
+                                            {repo.language}
+                                        </span>
+                                    )}
+                                    {repo.stars > 0 && (
+                                        <span className="flex items-center gap-1">
+                                            <svg
+                                                className="size-3.5"
+                                                viewBox="0 0 24 24"
+                                                fill="currentColor"
+                                            >
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                                            </svg>
+                                            {repo.stars}
+                                        </span>
+                                    )}
+                                </div>
+                            </a>
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     );
 }

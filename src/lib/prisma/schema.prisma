@@ -1,6 +1,11 @@
+// prisma/schema.prisma
+// Define your database models
+
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
+
 datasource db {
   provider = "postgresql"
 }
@@ -15,28 +20,32 @@ enum SyncStatus {
 model User {
 
   /// Clerk user ID (primary identity)
-  id            String   @id
+  id                    String   @id
 
   /// Public app username
-  stageName     String   @unique
+  stageName             String   @unique
 
  /// GitHub username
-  username      String   @unique
+  username              String   @unique
 
-  avatarUrl     String?
-  description   String?
-  socialLinks   Json?
-  isPublic      Boolean  @default(true)
-  lastSyncedAt  DateTime?
-  syncStatus    SyncStatus @default(IDLE)
+ /// GitHub access token
+  githubAccessToken     String?    
+  githubTokenExpiry     DateTime?
 
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
 
-  repos         Repo[]
+avatarUrl                String?
+description              String?
+socialLinks              Json?
+isPublic                 Boolean  @default(true)
 
-  @@index([username])
-  @@index([stageName])
+lastSyncedAt             DateTime?
+syncStatus               SyncStatus @default(IDLE)
+
+createdAt                DateTime @default(now())
+updatedAt                DateTime @updatedAt
+
+repos                    Repo[]
+
 }
 
 model Repo {
@@ -49,7 +58,7 @@ model Repo {
   /// Repo metadata
   githubRepoId  Int      @unique
   name          String
-  fullName      String   // owner/name
+  fullName      String   // ownername
   stars         Int      @default(0)
   language      String?
   htmlUrl       String
@@ -60,6 +69,5 @@ model Repo {
 
 
  @@index([userId])
-  @@index([language])
-  @@unique([userId, name])  // prevents duplicate repo names per user
+ @@unique([userId, name])  // prevents duplicate repo names per user
 }

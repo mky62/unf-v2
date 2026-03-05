@@ -3,7 +3,6 @@ import { clerkMiddleware } from "@clerk/nextjs/server";
 const RESERVED = new Set([
   "api",
   "dashboard",
-  "signin",
   "sign-in",
   "sign-up",
   "sso-callback",
@@ -21,7 +20,6 @@ export default clerkMiddleware(async (auth, req) => {
 
   if (
     pathname === "/" ||
-    pathname.startsWith("/signin") ||
     pathname.startsWith("/sign-in") ||
     pathname.startsWith("/sign-up") ||
     pathname.startsWith("/sso-callback")
@@ -30,8 +28,6 @@ export default clerkMiddleware(async (auth, req) => {
   }
 
   // Clerk webhook must be reachable publicly.
-  if (pathname === "/api/webhooks/clerk") return;
-
   if (isPublicProfilePath(pathname)) return;
 
   await auth.protect();

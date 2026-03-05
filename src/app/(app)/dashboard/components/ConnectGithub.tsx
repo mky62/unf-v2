@@ -22,8 +22,8 @@ const statusConfig: Record<
 > = {
     IDLE: {
         label: "Idle",
-        color: "text-muted-foreground",
-        dotColor: "bg-muted-foreground",
+        color: "text-yellow-500",
+        dotColor: "bg-yellow-500",
     },
     SYNCING: {
         label: "Syncing…",
@@ -57,8 +57,29 @@ export default function ConnectGithub({
 
     const cfg = statusConfig[syncStatus] ?? statusConfig.IDLE;
 
+    async function getSync() {   // ← moved inside
+        setError(null);
+        setLoading(true);
+        try {
+            const res = await fetch("/api/sync", { method: "POST" });
+            if (!res.ok) {
+                const body = await res.json().catch(() => null);
+                throw new Error(body?.error ?? "Sync failed");
+            }
+            router.refresh();
+        } catch (e: unknown) {
+            const msg =
+                typeof e === "object" && e && "message" in e
+                    ? String((e as { message?: unknown }).message)
+                    : null;
+            setError(msg || "Sync failed");
+        } finally {
+            setLoading(false);
+        }
+    }
+
     return (
-        <div className="rounded-2xl border bg-card p-5 sm:p-6">
+        <div className=" border bg-card p-5 sm:p-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 {/* Left: Status info */}
                 <div className="flex items-center gap-4">
@@ -85,6 +106,7 @@ export default function ConnectGithub({
                                 {cfg.label}
                             </span>
                         </div>
+
                         <div className="mt-0.5 flex items-center gap-3 text-sm text-muted-foreground">
                             <span>{repoCount} repos cached</span>
                             {lastSyncedAt && (
@@ -101,26 +123,7 @@ export default function ConnectGithub({
                 <Button
                     type="button"
                     disabled={loading || syncStatus === "SYNCING"}
-                    onClick={async () => {
-                        setError(null);
-                        setLoading(true);
-                        try {
-                            const res = await fetch("/api/sync", { method: "POST" });
-                            if (!res.ok) {
-                                const body = await res.json().catch(() => null);
-                                throw new Error(body?.error ?? "Sync failed");
-                            }
-                            router.refresh();
-                        } catch (e: unknown) {
-                            const msg =
-                                typeof e === "object" && e && "message" in e
-                                    ? String((e as { message?: unknown }).message)
-                                    : null;
-                            setError(msg || "Sync failed");
-                        } finally {
-                            setLoading(false);
-                        }
-                    }}
+                    onClick={getSync}
                     className="shrink-0"
                 >
                     <svg
