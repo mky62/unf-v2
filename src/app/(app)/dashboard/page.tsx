@@ -12,6 +12,7 @@ import OwnerProfile from "./components/OwnerProfile";
 import RepoList from "./components/RepoList";
 import ConnectGithub from "./components/ConnectGithub";
 import DeleteAccount from "./components/DeleteAccount";
+import GithubHeatmap from "@/src/components/GithubHeatmap";
 
 export const runtime = "nodejs";
 
@@ -110,6 +111,11 @@ export default async function DashboardPage() {
               lastSyncedAt={data.lastSyncedAt?.toISOString() ?? null}
               repoCount={data.repos.length}
             />
+          </div>
+
+          {/* Github Heatmap */}
+          <div className="px-2">
+            <GithubHeatmap username={data.username} />
           </div>
 
           {/* Scrollable repo section */}

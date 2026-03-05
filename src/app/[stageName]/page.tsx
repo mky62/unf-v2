@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { prisma } from "@/src/lib/prisma";
 import { syncRepos } from "@/src/lib/sync";
+import GithubHeatmap from "@/src/components/GithubHeatmap";
 
 export const runtime = "nodejs";
 
@@ -171,6 +172,11 @@ export default async function StageNamePage({
               </div>
             )}
           </div>
+        </div>
+
+        {/* GitHub Heatmap */}
+        <div className="mt-6">
+          <GithubHeatmap username={user.username} />
         </div>
 
         {/* Repositories */}
