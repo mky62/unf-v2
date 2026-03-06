@@ -12,6 +12,12 @@ type SearchResult = {
     _count: { repos: number };
 };
 
+async function searchUsers(query: string) {
+    const res = await fetch(`/api/users/search?q=${encodeURIComponent(query.trim())}`);
+    if (res.ok) return (await res.json()).users ?? [];
+    return [];
+}
+
 
 export default function SearchBar() {
     const router = useRouter();
@@ -29,13 +35,7 @@ export default function SearchBar() {
             return;
         }
         setLoading(true);
-        debounceRef.current = setTimeout(async () => {
-            try {
-                const res = await fetch(`/api/users/search?q=${encodeURIComponent(query.trim())}`);
-                if (res.ok) setResults((await res.json()).users ?? []);
-            } catch { /* ignore */ } finally { setLoading(false); }
-        }, 300);
-        return () => { if (debounceRef.current) clearTimeout(debounceRef.current); };
+        debounceRef.current = setTimeout(searchUsers(query))
     }, [query]);
 
     return (
