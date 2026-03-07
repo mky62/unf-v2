@@ -3,7 +3,7 @@
 import { Button } from '@/src/components/ui/button'
 import AuthBg from '@/public/loginbg.jpg'
 import Image from 'next/image'
-import Logo from '@/public/logo.png'
+import Logo from '@/public/logoapp.svg'
 import { Alert, AlertDescription } from '@/src/components/ui/alert'
 import { AlertCircle, LoaderCircle } from 'lucide-react'
 import { GitHubIcon } from '@/src/components/icons/Icons'
@@ -43,9 +43,7 @@ export default function CustomSignInForm() {
         <div
           className='text-center space-y-4'>
           <div className="flex justify-center">
-            <div className="flex items-center justify-center size-14 rounded-2xl bg-white/75 ring-1 ring-black/5 shadow-sm">
-              <Image src={Logo} alt="Logo" width={28} height={28} />
-            </div>
+            <h1 className="text-xl font-geom tracking-tight  text-blue-900">RepoLens</h1>
           </div>
         </div>
         <div
@@ -77,12 +75,12 @@ export default function CustomSignInForm() {
           data-cl-language="auto"
         />
 
-        <p className="pt-1 text-center text-sm text-muted-foreground">
-          BE THE PART OF THE{" "}<span>UNFINISHED</span>
+        <p className="pt-1 text-center font-nunito text-sm text-muted-foreground">
+          BE THE PART OF THE{" "}<span className='font-geom underline cursor-pointer'><a href="/"></a>RepoLens</span>
         </p>
 
       </div>
 
-    </div>
+    </div >
   )
 }

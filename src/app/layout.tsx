@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  Geist, Geist_Mono, Nunito, Geom
+} from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from '@clerk/nextjs'
 
@@ -14,9 +16,19 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const nunito = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+});
+
+const geom = Geom({
+  variable: "--font-geom",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "Unfold",
-  description: "Unfold your profile",
+  title: "RepoLens",
+  description: "RepoLens - lens the repo",
 };
 
 export default function RootLayout({
@@ -27,7 +39,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <body className={`${geistSans.variable} ${geistMono.variable} ${nunito.variable} ${geom.variable} antialiased`}>
           {children}
         </body>
       </html>

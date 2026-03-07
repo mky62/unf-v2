@@ -1,3 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+
+@theme {
+    --font-nunito: var(--font-nunito), "Nunito", sans-serif;
+    --font-geom: var(--font-geom), "Geom", sans-serif;
+}

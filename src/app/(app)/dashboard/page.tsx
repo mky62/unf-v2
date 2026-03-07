@@ -27,7 +27,7 @@ export default async function DashboardPage() {
   });
 
   // Auto-create the DB user if they exist in Clerk but not in the database
-  // (e.g., after a database reset or if the webhook didn't fire)
+
   if (!user) {
     const clerkUser = await currentUser();
     if (!clerkUser) redirect("/sign-in");

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import NextImage from "next/image";
 import { useAuth } from "@clerk/nextjs";
 import SearchBar from "./Searchbar";
 
@@ -17,13 +16,7 @@ export default function Navbar() {
 
                     {/* Logo */}
                     <a href="/">
-                        <NextImage
-                            src="/croplogo.png"
-                            alt="unfinished"
-                            width={100}
-                            height={100}
-                            className="h-10 w-auto object-contain rounded-lg"
-                        />
+                        <h1 className="text-lg font-geom tracking-tight  text-blue-900">RepoLens</h1>
                     </a>
 
                     <SearchBar />
@@ -34,7 +27,7 @@ export default function Navbar() {
                         {isSignedIn ? (
                             <a
                                 href="/dashboard"
-                                className="inline-flex h-8 items-center gap-1.5 rounded-xl bg-gradient-to-br from-pink-300 to-rose-400 px-4 text-[13px] font-semibold text-rose-950 shadow-lg shadow-rose-500/20 transition-all hover:-translate-y-px hover:shadow-rose-500/40"
+                                className="inline-flex h-8 items-center gap-1.5 rounded-xl bg-gradient-to-br from-blue-300 to-blue-400 px-4 text-[13px] font-semibold text-rose-950 shadow-lg shadow-rose-500/20 transition-all hover:-translate-y-px hover:shadow-rose-500/40"
                             >
                                 <svg className="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
                                     <rect x="3" y="3" width="7" height="7" rx="1" />
@@ -46,8 +39,8 @@ export default function Navbar() {
                             </a>
                         ) : (
                             <a
-                                href="/sign-up"
-                                className="inline-flex h-8 items-center rounded-xl px-3.5 text-[13px] font-medium text-gray/50 transition-colors hover:text-white/90"
+                                href="/sign-in"
+                                className="inline-flex h-8 items-center bg-gradient-to-br from-blue-300 to-blue-400 px-4 rounded-sm px-3.5 text-[13px] font-medium sm:text-sm text-gray/50 transition-colors hover:text-blue-900/90"
                             >
                                 Get Started
                             </a>
