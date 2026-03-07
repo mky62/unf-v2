@@ -3,7 +3,8 @@
 import { useCallback, useMemo, useState } from "react";
 import { useSignIn } from "@clerk/nextjs";
 
-import type { OAuthProvider } from "@/src/lib/types";
+
+type OAuthProvider = 'github'
 
 type OAuthLoading = OAuthProvider | null;
 

@@ -3,10 +3,7 @@ import { redirect } from "next/navigation";
 import BgDash from '@/public/bgdash.jpg'
 import Image from 'next/image'
 
-
-
 import { prisma } from "@/src/lib/prisma";
-
 
 import OwnerProfile from "./components/OwnerProfile";
 import RepoList from "./components/RepoList";

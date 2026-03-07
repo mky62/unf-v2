@@ -1,4 +1,14 @@
-import type { Repo } from "@/src/lib/types";
+
+export type Repo = {
+    id: number
+    full_name: string
+    name?: string
+    html_url?: string
+    stargazers_count: number
+    open_issues_count?: number
+    language: string | null
+    pushed_at?: string
+}
 
 function requireOk(res: Response, context: string) {
     if (res.ok) return;
