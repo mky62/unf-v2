@@ -5,4 +5,5 @@
 @theme {
     --font-nunito: var(--font-nunito), "Nunito", sans-serif;
     --font-geom: var(--font-geom), "Geom", sans-serif;
+    --font-courgette: var(--font-courgette), "Courgette", sans-serif;
 }

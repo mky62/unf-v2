@@ -4,7 +4,6 @@ const RESERVED = new Set([
   "api",
   "dashboard",
   "sign-in",
-  "sign-up",
   "sso-callback",
 ]);
 
@@ -21,7 +20,6 @@ export default clerkMiddleware(async (auth, req) => {
   if (
     pathname === "/" ||
     pathname.startsWith("/sign-in") ||
-    pathname.startsWith("/sign-up") ||
     pathname.startsWith("/sso-callback")
   ) {
     return;
